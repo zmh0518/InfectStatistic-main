@@ -181,6 +181,71 @@ class InfectStatistic {
             e.printStackTrace();
         }
     }
-   
+    /* 写入TXT文件*/
+ public static void writeFile(String pathname) {
+        try {
+            String path=pathname;
+            File writeName = new File(path); // 相对路径，如果没有则要建立一个新的output.txt文件
+            writeName.createNewFile();       // 创建新文件,有同名的文件的话直接覆盖
+            try (FileWriter writer = new FileWriter(writeName);
+                 BufferedWriter out = new BufferedWriter(writer)
+            ) {
+                for(int i=1;i<province.length;i++){
+                        typ[0][0]+=typ[0][i];
+                        typ[1][0]+=typ[1][i];
+                        typ[2][0]+=typ[2][i];
+                        typ[3][0]+=typ[3][i];
+                }
+                for(int i=0;i<province.length;i++){
+                    if(tempp==1){
+                        if(pr[i]==1){
+                            out.write(province[i]);
+                            if(tempt==1){
+                                for(int k=0;k<ty.length;k++){
+                                    if(ty[k]==1){
+                                        out.write(" "+_type1[k]+" "+typ[k][i]+"人");
+                                    }
+                                }
+                            }
+                            else{
+                                for(int k=0;k<ty.length;k++){
+                                    if(ty[k]==0){
+                                        out.write(" "+_type1[k]+" "+typ[k][i]+"人");
+                                    }
+                                }
+                            }
+                            
+                            out.write("\r\n");
+                        }
+                    }
+                    else{
+                        if(pr[i]==0){
+                            out.write(province[i]);
+                            if(tempt==1){
+                                for(int k=0;k<ty.length;k++){
+                                    if(ty[k]==1){
+                                        out.write(" "+_type1[k]+" "+typ[k][i]+"人");
+                                    }
+                                }
+                            }
+                            else{
+                                for(int k=0;k<ty.length;k++){
+                                    if(ty[k]==0){
+                                        out.write(" "+_type1[k]+" "+typ[k][i]+"人");
+                                    }
+                                }
+                            }
+                            out.write("\r\n");
+                        }   
+                    }
+                        
+                }
+                out.write("// 该文档并非真实数据，仅供测试使用\r\n");
+                out.flush(); // 把缓存区内容压入文件
+            }
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+    }
   
 }
