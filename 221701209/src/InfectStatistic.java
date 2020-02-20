@@ -113,7 +113,74 @@ class InfectStatistic {
         }
         return Integer.parseInt(s.substring(0, k));
     }
-    
+      public static void Adddel3(String[] ss,int n){
+        String op=ss[1];
+        int num=Cuts(ss[2]);
+        if(op.equals("死亡")){
+            typ[3][n]+=num;
+            typ[0][n]-=num;
+        }
+        else if(op.equals("治愈")){
+            typ[2][n]+=num;
+            typ[0][n]-=num;
+        }
+    }
+
+    public static void Adddel4(String []ss,int n){
+        int num=Cuts(ss[3]);
+        if(ss[1].equals("新增")){
+            if(ss[2].equals("感染患者")){
+                typ[0][n]+=num;
+            }
+            else if(ss[2].equals("疑似患者"))typ[1][n]+=num;
+        }
+        else if(ss[1].equals("疑似患者")&&ss[2].equals("确诊感染")){
+            typ[0][n]+=num;
+            typ[1][n]-=num;
+        }
+        else if(ss[1].equals("排除")&&ss[2].equals("疑似患者")){
+            typ[1][n]-=num;
+        }
+    }
+
+    public static void Adddel5(String []ss,int i1,int i2){
+        int num=Cuts(ss[4]);
+        if(ss[1].equals("疑似患者")){
+            typ[1][i1]-=num;
+            typ[1][i2]+=num;
+        }
+        else if(ss[1].equals("感染患者")){
+            typ[0][i1]-=num;
+            typ[0][i2]+=num;
+        }
+    }
+
+    public static void ReadFile(String pathname) { 
+        try (FileReader reader = new FileReader(pathname);
+             BufferedReader br = new BufferedReader(reader) 
+        ) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if(line.toCharArray()[0]=='/')break;
+                String []ss=line.split("\\s+");
+                if(ss.length==3){
+                   int i=Provin(ss[0]);
+                   Adddel3(ss,i);
+                }
+                else if(ss.length==4){
+                    int i=Provin(ss[0]);
+                    Adddel4(ss,i);
+                }
+                else if(ss.length==5){
+                    int i1=Provin(ss[0]);
+                    int i2=Provin(ss[3]);
+                    Adddel5(ss,i1,i2);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
    
   
 }
